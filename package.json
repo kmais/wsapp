@@ -1,0 +1,19 @@
+{
+  "name": "km-websocket-test",
+  "version": "1.0.0",
+  "description": "Websocket Test",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmais/wsapp.git"
+  },
+  "author": "Kenny Mais",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kmais/wsapp/issues"
+  },
+  "homepage": "https://github.com/kmais/wsapp#readme"
+}
