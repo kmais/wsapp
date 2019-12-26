@@ -77,6 +77,7 @@
         .getUserMedia(constraints)
         .then(function(mediaStream) {
           var mediaRecorder = new MediaRecorder(mediaStream);
+          console.log(mediaRecorder);
           mediaRecorder.onstart = function(e) {
             this.chunks = [];
           };
@@ -87,6 +88,7 @@
             var blob = new Blob(this.chunks, {
               type: "audio/ogg; codecs=opus"
             });
+            console.log(blob);
             socket.emit("radio", blob);
           };
 
@@ -104,6 +106,7 @@
       socket.on("voice", function(arrayBuffer) {
         var blob = new Blob([arrayBuffer], { type: "audio/ogg; codecs=opus" });
         var audio = document.createElement("audio");
+        console.log(blob);
         audio.src = window.URL.createObjectURL(blob);
         audio.play();
       });
