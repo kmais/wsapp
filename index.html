@@ -107,7 +107,7 @@
 
       socket.on("voice", function(arrayBuffer) {
         console.log("received voice data");
-        var blob = new Blob([arrayBuffer], { type: "audio/mpeg; codecs=opus" });
+        var blob = new Blob([arrayBuffer], { type: "audio/mpeg;" });
         var audio = document.createElement("audio");
         console.log("received");
         console.log(blob);
