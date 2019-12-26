@@ -88,6 +88,7 @@
             var blob = new Blob(this.chunks, {
               type: "audio/ogg; codecs=opus"
             });
+            console.log("sent");
             console.log(blob);
             socket.emit("radio", blob);
           };
@@ -106,6 +107,7 @@
       socket.on("voice", function(arrayBuffer) {
         var blob = new Blob([arrayBuffer], { type: "audio/ogg; codecs=opus" });
         var audio = document.createElement("audio");
+        console.log("received");
         console.log(blob);
         audio.src = window.URL.createObjectURL(blob);
         audio.play();
