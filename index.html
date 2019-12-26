@@ -104,6 +104,7 @@
         });
 
       // When the client receives a voice message it will play the sound
+
       socket.on("voice", function(arrayBuffer) {
         console.log("received voice data");
         var blob = new Blob([arrayBuffer], { type: "audio/ogg; codecs=opus" });

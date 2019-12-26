@@ -34,7 +34,7 @@ io.sockets.on("connection", function (socket) {
 
     console.log('blob received')
     // can choose to broadcast it to whoever you want
-    socket.broadcast.emit('voice', blob);
+    io.socket.broadcast('voice', blob);
 
   });
 
