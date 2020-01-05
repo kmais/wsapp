@@ -52,7 +52,7 @@ io.sockets.on("connection", function (socket) {
     // can choose to broadcast it to whoever you want
     // socket.broadcast.emit('voice', blob);
     socket.emit("offer", sdp)
-
+    console.log('offer re-emited')
   });
 
   socket.on('answer', function (sdp) {
