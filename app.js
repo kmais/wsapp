@@ -30,11 +30,12 @@ io.sockets.on("connection", function (socket) {
   });
 
 
-  socket.on('radio', function (blob) {
+  socket.on('offer', function (sdp) {
 
-    console.log('blob received')
+    console.log('sdp received')
+    console.log('sdp')
     // can choose to broadcast it to whoever you want
-    socket.broadcast.emit('voice', blob);
+    // socket.broadcast.emit('voice', blob);
 
   });
 

@@ -1,121 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Chat</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Chat</title>
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-  </head>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="well">
-            <h3>online users</h3>
-            <ul id="users" class="list-group"></ul>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="chat" id="chat"></div>
-          <form id="messageForm">
-            <div class="form-group">
-              <label>message</label>
-              <textarea id="message" class="form-control"></textarea>
-              <br />
-              <input
-                type="submit"
-                class="btn btn-primary"
-                value="Send Message"
-              />
-            </div>
-          </form>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="well">
+          <h3>online users</h3>
+          <ul id="users" class="list-group"></ul>
         </div>
       </div>
+      <div class="col-md-8">
+        <div class="chat" id="chat"></div>
+        <form id="messageForm">
+          <div class="form-group">
+            <label>message</label>
+            <textarea id="message" class="form-control"></textarea>
+            <br />
+            <input type="submit" class="btn btn-primary" value="Send Message" />
+          </div>
+        </form>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
 
-  <style>
-    body {
-      margin-top: 30px;
-    }
-  </style>
+<style>
+  body {
+    margin-top: 30px;
+  }
+</style>
 
-  <script>
-    $(function() {
-      var socket = io.connect("https://chatsignalling.herokuapp.com/");
-      var $messageForm = $("#messageForm");
-      var $message = $("#message");
-      var $chat = $("#chat");
+<script>
+  $(function () {
+    var socket = io.connect("https://chatsignalling.herokuapp.com/");
+    var $messageForm = $("#messageForm");
+    var $message = $("#message");
+    var $chat = $("#chat");
 
-      $messageForm.submit(function(e) {
-        e.preventDefault();
-        console.log("submitted");
-        socket.emit("send message", $message.val());
-        $message.val("");
-      });
-
-      socket.on("new message", function(data) {
-        $chat.append('<div class="well">' + data.msg + "</div>");
-      });
-
-      var constraints = { audio: true };
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function(mediaStream) {
-          var mediaRecorder = new MediaRecorder(mediaStream);
-          console.log(mediaRecorder);
-          mediaRecorder.onstart = function(e) {
-            this.chunks = [];
-          };
-          mediaRecorder.ondataavailable = function(e) {
-            this.chunks.push(e.data);
-          };
-          mediaRecorder.onstop = function(e) {
-            var blob = new Blob(this.chunks, {
-              type: "audio/mpeg"
-            });
-            console.log("sent");
-            console.log(blob);
-            socket.emit("radio", blob);
-          };
-
-          // Start recording
-          mediaRecorder.start();
-
-          // Stop recording after 5 seconds and broadcast it to server
-          setInterval(function() {
-            mediaRecorder.stop();
-            //mediaRecorder.start();
-          }, 1000);
-        });
-
-      // When the client receives a voice message it will play the sound
-
-      socket.on("voice", function(arrayBuffer) {
-        console.log("received voice data");
-        var blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
-        var audio = document.createElement("audio");
-        console.log("received");
-        console.log(blob);
-        audio.src = window.URL.createObjectURL(blob);
-        audio.play();
-      });
-
-      //
+    $messageForm.submit(function (e) {
+      e.preventDefault();
+      console.log("submitted");
+      socket.emit("send message", $message.val());
+      $message.val("");
     });
-  </script>
+
+    socket.on("new message", function (data) {
+      $chat.append('<div class="well">' + data.msg + "</div>");
+    });
+
+  });
+</script>
+
 </html>
